@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, FlatList, Dimensions, SafeAreaView } from "react-native";
 import { MangaItem } from "./MangaItem";
 import { UseGetAllRankManga } from "../hooks/getRankManga";
+import LottieView from "lottie-react-native";
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,17 +25,28 @@ const styles = StyleSheet.create({
     },
     flatListContent: {
         paddingBottom: 100,  // Add padding to the content container for last item visibility
+    },
+    contaier: {
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
 export const MangaRankList = () => {
     const { data, isLoading } = UseGetAllRankManga();
-    const renderItem = ({ item }) => <MangaItem mangaObj={item}/>
+    const renderItem = ({ item }) => <MangaItem mangaObj={item} />
 
     return (
         <SafeAreaView>
             {isLoading ? (
-                <Text>Loading...</Text>
+                <View style={styles.contaier}>
+                    <LottieView
+                        source={require('../../assets/animations/Animation - 1744274769357.json')}
+                        autoPlay
+                        loop
+                        style={{ width: 200, height: 200 }}
+                    />
+                </View>
             ) : data ? (
                 <FlatList
                     data={data.data}

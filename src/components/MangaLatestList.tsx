@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, FlatList, Dimensions, SafeAreaView } from "react-native";
+import { StyleSheet, Text, FlatList, Dimensions, View } from "react-native";
 import { MangaItem } from "./MangaItem";
 import { UseGetLatestManga } from "../hooks/getLatestManga";
+import LottieView from "lottie-react-native";
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,17 +26,28 @@ const styles = StyleSheet.create({
     },
     flatListContent: {
         paddingBottom: 100,  // Add padding to the content container for last item visibility
-    }
+    },
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export const MangaLatestList = () => {
     const { data, isLoading } = UseGetLatestManga();
-    const renderItem = ({ item }) => <MangaItem mangaObj={item}/>
+    const renderItem = ({ item }) => <MangaItem mangaObj={item} />
 
     return (
-        <SafeAreaView>
+        <View>
             {isLoading ? (
-                <Text>Loading...</Text>
+                <View style={styles.container}>
+                    <LottieView
+                        source={require('../../assets/animations/Animation - 1744274769357.json')}
+                        autoPlay
+                        loop
+                        style={{ width: 200, height: 200 }}
+                    />
+                </View>
             ) : data ? (
                 <FlatList
                     data={data.data}
@@ -50,6 +62,6 @@ export const MangaLatestList = () => {
             ) : (
                 <Text>No data available</Text>
             )}
-        </SafeAreaView>
+        </View>
     );
 };

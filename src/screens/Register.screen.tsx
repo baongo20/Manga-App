@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TextInput, Pressable, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { FacebookIcon, GoogleIcon, TwitterIcon } from "../components/Icons";
 import { useNavigation } from "@react-navigation/native";
 import { theme } from "./tabs/theme";
 import { enableScreens } from "react-native-screens";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserContext } from "../UserContext";
 
 enableScreens(false);
 
@@ -37,47 +36,40 @@ const styles = StyleSheet.create({
     },
 });
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
     const navigation = useNavigation();
     const [_email, setEmail] = useState('');
     const [_password, setPassword] = useState('');
 
-    const { setUser } = useContext(UserContext);
-
-    // async function LoginUser() {
+    // const RegisterUser = async () => {
     //     const db = getDB();
-    //     if(!email || !password){
+
+    //     if (!email.trim() || !password.trim()) {
     //         Alert.alert("Please enter both email and password.");
     //         return;
     //     }
     //     db.transaction(tx => {
     //         tx.executeSql(
-    //             "SELECT * FROM Users WHERE Email = ? and Password = ?",
+    //             "INSERT INTO Users (Email, Password) VALUES(?, ?)",
     //             [email, password],
-    //             (_, { rows }) => {
-    //                 if (rows.length > 0) {
-    //                     Alert.alert("Login Successful!");
-    //                     navigation.navigate('Home');
-    //                 } else {
-    //                     Alert.alert("Invalid username or password");
-    //                 }
+    //             () => {
+    //                 Alert.alert("Register Successful!");
     //             },
     //             (_, error) => {
-    //                 console.log('Login error:', error);
-    //                 return;
+    //                 Alert.alert('Register fail: ' + error);
     //             }
     //         )
     //     })
     // };
 
-    const login = async () => {
+    const register = async () => {
         try {
-            const savedUser = await AsyncStorage.getItem(_email);
-            if(savedUser){
-                const currentUser = JSON.parse(savedUser);
-                setUser(currentUser);
-                navigation.navigate('Home');
-            }
+            await AsyncStorage.setItem(_email, JSON.stringify({
+                email: _email,
+                password: _password
+            }));
+            Alert.alert('Register successful!');
+            navigation.navigate('Login');
         } catch (error) {
             console.log(error);
         }
@@ -86,23 +78,22 @@ export const LoginScreen = () => {
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
-                <Text style={{ color: 'red', fontSize: 35, fontFamily: theme.fontFamilyBold }}>Login</Text>
+                <Text style={{ color: 'red', fontSize: 35, fontFamily: theme.fontFamilyBold }}>Register</Text>
                 <View style={{ marginTop: 20 }}>
                     <View>
-                        <TextInput placeholder="Email Address" style={styles.textInput} 
-                        keyboardType="email-address" onChangeText={setEmail} value={_email}/>
+                        <TextInput placeholder="Email Address" style={styles.textInput}
+                            keyboardType="email-address" onChangeText={setEmail} value={_email} />
                     </View>
                     <View style={{ marginTop: 20 }}>
                         <TextInput placeholder="Password" style={styles.textInput}
-                        onChangeText={setPassword} value={_password} secureTextEntry={true}/>
-                        <Text style={{ paddingHorizontal: 20, fontSize: 12, marginTop: 5 }}>Forget Password?</Text>
+                            onChangeText={setPassword} value={_password} secureTextEntry={true} />
                     </View>
                 </View>
-                <Pressable style={styles.button} onPress={login}>
-                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>Login</Text>
+                <Pressable style={styles.button} onPress={register}>
+                    <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>Register</Text>
                 </Pressable>
                 <View>
-                    <Text style={{ textAlign: 'center' }}>Or Login with</Text>
+                    <Text style={{ textAlign: 'center' }}>Or Register with</Text>
                     <View style={{ marginTop: 10, flexDirection: 'row' }}>
                         <View>
                             <TwitterIcon />

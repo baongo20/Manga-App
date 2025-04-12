@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TextInput, Pressable, FlatList } from "react-native";
 import { UseGetAllGenre } from "../../hooks/getAllGenre";
 import { MangaGenreItem } from "../../components/MangaGenreItem";
+import LottieView from "lottie-react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     },
     flatListContent: {
         paddingBottom: 100,  // Add padding to the content container for last item visibility
-    }
+    },
 });
 
 export const SearchScreen = () => {
@@ -33,15 +34,23 @@ export const SearchScreen = () => {
                     justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10,
                     borderTopLeftRadius: 10, borderBottomLeftRadius: 10
                 }} />
-                <Pressable style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center',
+                <Pressable style={{
+                    flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center',
                     borderTopRightRadius: 10, borderBottomRightRadius: 10,
-                 }}>
+                }}>
                     <Text style={{ color: 'white' }}>Search</Text>
                 </Pressable>
             </View>
             <View>
                 {isLoading ? (
-                    <Text>Loading...</Text>
+                    <View style={{justifyContent:'center',alignItems:'center'}}>
+                        <LottieView
+                            source={require('../../../assets/animations/Animation - 1744274769357.json')}
+                            autoPlay
+                            loop
+                            style={{ width: 200, height: 200 }}
+                        />
+                    </View>
                 ) : data ? (
                     <FlatList
                         data={data.data}

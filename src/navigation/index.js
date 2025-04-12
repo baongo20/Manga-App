@@ -8,6 +8,7 @@ import { HomeIcon, SaveIcon, SearchIcon, UserIcon } from "../components/Icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DetailsScreen } from "../screens/DetailsScreen";
 import { LoginScreen } from "../screens/Login.screen";
+import { RegisterScreen } from "../screens/Register.screen";
 
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,8 @@ export const StackNavigator = () => {
       <Stack.Screen name="Detail" component={DetailsScreen} options={{headerShown: true}}/>
       <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
       <Stack.Screen name="Save" component={SaveScreen}/>
+      <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="Main" component={MainScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 };

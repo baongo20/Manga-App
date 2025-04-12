@@ -27,7 +27,7 @@ export const MangaItem = ({ mangaObj }) => {
             </Pressable>
             <View>
                 <Text adjustsFontSizeToFit style={styles.textStyle} numberOfLines={1}>
-                    {mangaObj.title.length > 20 ? `${mangaObj.title.substring(0, 17)}...` : mangaObj.title}
+                    {mangaObj.title.length > 18 ? `${mangaObj.title.substring(0, 15)}...` : mangaObj.title}
                 </Text>
                 <Text>
                     {mangaObj.chapters ? "Chapter: " + mangaObj.chapters : "Chapter:"}
